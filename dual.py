@@ -68,9 +68,13 @@ class Dual:
         return Dual(np.log(self.first), self.second / self.first)
 
     def __pow__(self, k: Number) -> 'Dual':
+        if self.first == 0:
+            raise Exception
         return Dual(self.first ** k, k * (self.first ** (k - 1)) * self.second)
 
     def __abs__(self) -> 'Dual':
+        if self.first == 0:
+            raise Exception
         return Dual(abs(self.first), self.second * np.sign(self.first))
 
 
