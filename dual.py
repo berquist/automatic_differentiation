@@ -36,7 +36,9 @@ class Dual:
 
     def __mul__(self, other: Union['Dual', Number]) -> 'Dual':
         if isinstance(other, Dual):
-            return Dual(self.first * other.first, self.second * other.second)
+            first = self.first * other.first
+            second = self.second * other.first + self.first * other.second
+            return Dual(first, second)
         else:
             return self * Dual._lift(other)
 
@@ -70,7 +72,9 @@ class Dual:
     def __pow__(self, k: Number) -> 'Dual':
         if self.first == 0:
             raise Exception
-        return Dual(self.first ** k, k * (self.first ** (k - 1)) * self.second)
+        first = self.first ** k
+        second = k * (self.first ** (k - 1)) * self.second
+        return Dual(first, second)
 
     def __abs__(self) -> 'Dual':
         if self.first == 0:
