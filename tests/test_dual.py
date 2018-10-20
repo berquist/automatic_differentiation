@@ -39,4 +39,5 @@ if __name__ == "__main__":
     y = np.pi
     print(f(x, y))
     print(f(Dual._lift(x), Dual._lift(y)))
-    print(f(Dual(x, 1), Dual(y, 1)))
+    d1 = f(Dual(x, 1), Dual(y, 1))
+    print(d1)

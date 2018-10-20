@@ -8,4 +8,4 @@ mypy:
 	mypy --strict --ignore-missing-imports --python-version	3.7 dual.py
 
 pytest:
-	pytest -v -s *.py
+	pytest -v -s tests
