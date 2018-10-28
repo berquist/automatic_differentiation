@@ -1,10 +1,12 @@
 import attr
+
 from typing import Union
 
 import numpy as np
 
 
 Number = Union[float, int, np.ndarray]
+DNumber = Union[Number, 'Dual']
 
 
 @attr.s
@@ -16,25 +18,25 @@ class Dual:
     def _lift(primitive: Number) -> 'Dual':
         return Dual(primitive, 0)
 
-    def __add__(self, other: Union['Dual', Number]) -> 'Dual':
+    def __add__(self, other: DNumber) -> 'Dual':
         if isinstance(other, Dual):
             return Dual(self.first + other.first, self.second + other.second)
         else:
             return self + Dual._lift(other)
 
-    def __radd__(self, other: Union['Dual', Number]) -> 'Dual':
+    def __radd__(self, other: DNumber) -> 'Dual':
         return self + other
 
-    def __sub__(self, other: Union['Dual', Number]) -> 'Dual':
+    def __sub__(self, other: DNumber) -> 'Dual':
         if isinstance(other, Dual):
             return Dual(self.first - other.first, self.second - other.second)
         else:
             return self - Dual._lift(other)
 
-    def __rsub__(self, other: Union['Dual', Number]) -> 'Dual':
+    def __rsub__(self, other: DNumber) -> 'Dual':
         return self - other
 
-    def __mul__(self, other: Union['Dual', Number]) -> 'Dual':
+    def __mul__(self, other: DNumber) -> 'Dual':
         if isinstance(other, Dual):
             first = self.first * other.first
             second = self.second * other.first + self.first * other.second
@@ -42,10 +44,10 @@ class Dual:
         else:
             return self * Dual._lift(other)
 
-    def __rmul__(self, other: Union['Dual', Number]) -> 'Dual':
+    def __rmul__(self, other: DNumber) -> 'Dual':
         return self * other
 
-    def __truediv__(self, other: Union['Dual', Number]) -> 'Dual':
+    def __truediv__(self, other: DNumber) -> 'Dual':
         if isinstance(other, Dual):
             if other.first == 0:
                 raise Exception
@@ -82,31 +84,28 @@ class Dual:
         return Dual(abs(self.first), self.second * np.sign(self.first))
 
 
-UNumber = Union[Number, Dual]
-
-
-def sin(n: UNumber) -> UNumber:
+def sin(n: DNumber) -> DNumber:
     if isinstance(n, Dual):
         return n.sin()
     else:
         return np.sin(n)
 
 
-def cos(n: UNumber) -> UNumber:
+def cos(n: DNumber) -> DNumber:
     if isinstance(n, Dual):
         return n.cos()
     else:
         return np.cos(n)
 
 
-def exp(n: UNumber) -> UNumber:
+def exp(n: DNumber) -> DNumber:
     if isinstance(n, Dual):
         return n.exp()
     else:
         return np.exp(n)
 
 
-def log(n: UNumber) -> UNumber:
+def log(n: DNumber) -> DNumber:
     if isinstance(n, Dual):
         return n.log()
     else:
