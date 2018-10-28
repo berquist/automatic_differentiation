@@ -9,4 +9,4 @@ mypy:
 
 .PHONY: test
 test:
-	pytest -v -s tests
+	pytest -v -s --cov=autodiff tests
