@@ -8,42 +8,89 @@ from dual import Dual
 from common import f_1d, f_2d, f_2d_sympy
 
 
-def test_f_1d():
+def test_f_mul() -> None:
     x = 0.9
-
     xs = sy.Symbol('x')
-    fs = f_1d(xs)
-    df_dx_sympy_symbolic = fs.diff(xs)
-    df_dx_sympy = df_dx_sympy_symbolic.evalf(subs={xs: x})
+    values = {xs: x}
 
-    print(fs)
+    def f(x):
+        return (7 * x) + 2
+
+    f_sympy_symbolic = f(xs)
+    df_dx_sympy_symbolic = f_sympy_symbolic.diff(xs)
+    d2f_dx2_sympy_symbolic = df_dx_sympy_symbolic.diff(xs)
+
+    f_sympy = f_sympy_symbolic.evalf(subs=values)
+    df_dx_sympy = df_dx_sympy_symbolic.evalf(subs=values)
+    d2f_dx2_sympy = d2f_dx2_sympy_symbolic.evalf(subs=values)
+
+    print(f_sympy_symbolic)
+    print(f_sympy)
     print(df_dx_sympy_symbolic)
     print(df_dx_sympy)
+    print(d2f_dx2_sympy_symbolic)
+    print(d2f_dx2_sympy)
+
+    f1 = f(Dual(x, 1))
+    print(f1)
+
+    decimal = 14
+
+    np.testing.assert_almost_equal(f1.first, f_sympy, decimal=decimal)
+    np.testing.assert_almost_equal(f1.second, df_dx_sympy, decimal=decimal)
+
+
+def test_f_1d() -> None:
+    x = 0.9
+    xs = sy.Symbol('x')
+    values = {xs: x}
+
+    fs = f_1d(xs)
+    f_sympy = fs.evalf(subs=values)
+    df_dx_sympy_symbolic = fs.diff(xs)
+    d2f_dx_dx_sympy_symbolic = df_dx_sympy_symbolic.diff(xs)
+    df_dx_sympy = df_dx_sympy_symbolic.evalf(subs=values)
+    d2f_dx_dx_sympy = d2f_dx_dx_sympy_symbolic.evalf(subs=values)
+
+    print('-' * 70)
+    print(fs)
+    print(f_sympy)
+    print('-' * 70)
+    print(df_dx_sympy_symbolic)
+    print(df_dx_sympy)
+    print('-' * 70)
+    print(d2f_dx_dx_sympy_symbolic)
+    print(d2f_dx_dx_sympy)
 
     d0 = Dual(x, 0)
     d1 = Dual(x, 1)
     result_1d_x = f_1d(x)
     result_1d_d0 = f_1d(d0)
-    result_1d_d1 = f_1d(d1)    
+    result_1d_d1 = f_1d(d1)
     assert isinstance(result_1d_x, float)
     assert isinstance(result_1d_d0, Dual)
     assert isinstance(result_1d_d1, Dual)
 
+    print('-' * 70)
     print(result_1d_x)
     print(result_1d_d0)
     print(result_1d_d1)
 
-    ref = 0.67543
     decimal = 14
 
-    np.testing.assert_almost_equal(result_1d_x, ref, decimal=decimal)
-    np.testing.assert_almost_equal(result_1d_d0.first, ref, decimal=decimal)
-    np.testing.assert_almost_equal(result_1d_d0.second, 0.0, decimal=decimal)
-    np.testing.assert_almost_equal(result_1d_d1.first, ref, decimal=decimal)
-    np.testing.assert_almost_equal(result_1d_d1.second, df_dx_sympy, decimal=decimal)
+    np.testing.assert_almost_equal(result_1d_x, f_sympy,
+                                   decimal=decimal)
+    np.testing.assert_almost_equal(result_1d_d0.first, f_sympy,
+                                   decimal=decimal)
+    np.testing.assert_almost_equal(result_1d_d0.second, 0.0,
+                                   decimal=decimal)
+    np.testing.assert_almost_equal(result_1d_d1.first, f_sympy,
+                                   decimal=decimal)
+    np.testing.assert_almost_equal(result_1d_d1.second, df_dx_sympy,
+                                   decimal=decimal)
 
 
-def test_f_2d():
+def test_f_2d() -> None:
     x = np.e
     y = np.pi
 
@@ -97,18 +144,21 @@ def test_f_2d():
     print(fd1)
     print(fd2)
 
-    ref = 9.81565563470103
+    df_dx = fd1.second
+    df_dy = fd2.second
+
     decimal = 13
 
-    np.testing.assert_almost_equal(f0, ref, decimal=decimal)
-    np.testing.assert_almost_equal(fd0.first, ref, decimal=decimal)
+    np.testing.assert_almost_equal(f0, f_sympy, decimal=decimal)
+    np.testing.assert_almost_equal(fd0.first, f_sympy, decimal=decimal)
     np.testing.assert_almost_equal(fd0.second, 0.0, decimal=decimal)
-    np.testing.assert_almost_equal(fd1.first, ref, decimal=decimal)
-    np.testing.assert_almost_equal(fd1.second, df_dx_sympy, decimal=decimal)
-    np.testing.assert_almost_equal(fd2.first, ref, decimal=decimal)
-    np.testing.assert_almost_equal(fd2.second, df_dy_sympy, decimal=decimal)
+    np.testing.assert_almost_equal(fd1.first, f_sympy, decimal=decimal)
+    np.testing.assert_almost_equal(df_dx, df_dx_sympy, decimal=decimal)
+    np.testing.assert_almost_equal(fd2.first, f_sympy, decimal=decimal)
+    np.testing.assert_almost_equal(df_dy, df_dy_sympy, decimal=decimal)
 
 
 if __name__ == "__main__":
+    test_f_mul()
     test_f_1d()
     test_f_2d()
