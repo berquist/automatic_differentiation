@@ -2,7 +2,8 @@ import sympy
 
 from typing import Any
 
-from autodiff.dual import DNumber, sin, log, exp
+from autodiff.autodiff_types import DNumber
+from autodiff.dual import sin, log, exp
 
 
 def f_1d(x) -> Any:

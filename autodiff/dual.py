@@ -1,12 +1,8 @@
 import attr
 
-from typing import Union
-
 import numpy as np
 
-
-Number = Union[float, int, np.ndarray]
-DNumber = Union[Number, 'Dual']
+from autodiff.autodiff_types import Number, DNumber
 
 
 @attr.s

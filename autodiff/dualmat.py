@@ -1,10 +1,10 @@
 import attr
-from typing import Optional, Union
+
+from typing import Union
 
 import numpy as np
 
-
-Scalar = Union[float, int]
+from autodiff.autodiff_types import Scalar
 
 
 @attr.s
