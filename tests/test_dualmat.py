@@ -5,7 +5,7 @@ from autodiff.dualmat import DualMat2D
 
 def test_dualmat_lift() -> None:
     a = -3
-    b = DualMat2D._lift(a)
+    b = DualMat2D.lift(a)
     # pylint: disable=C0326
     c = np.array([[ -3,  0],
                   [  0, -3]], dtype=int)
@@ -18,14 +18,14 @@ def test_dualmat_init() -> None:
     # pylint: disable=C0326
     c = np.array([[ -3,  1],
                   [  0, -3]], dtype=int)
-    d = DualMat2D(a, b)
+    d = DualMat2D.from_vals(a, b)
     np.testing.assert_equal(d.mat, c)
 
 
 def test_dualmat_add() -> None:
-    a = DualMat2D(-3, 1)
-    b = DualMat2D(-5, 2)
-    c_ = DualMat2D(-8, 3)
+    a = DualMat2D.from_vals(-3, 1)
+    b = DualMat2D.from_vals(-5, 2)
+    c_ = DualMat2D.from_vals(-8, 3)
     # pylint: disable=C0326
     refmat = np.array([[-8,  3],
                        [ 0, -8]], dtype=int)
@@ -37,9 +37,9 @@ def test_dualmat_add() -> None:
 
 
 def test_dualmat_sub() -> None:
-    a = DualMat2D(-3, 1)
-    b = DualMat2D(-5, 2)
-    c_ = DualMat2D(2, -1)
+    a = DualMat2D.from_vals(-3, 1)
+    b = DualMat2D.from_vals(-5, 2)
+    c_ = DualMat2D.from_vals(2, -1)
     # pylint: disable=C0326
     refmat = np.array([[ 2, -1],
                        [ 0,  2]], dtype=int)
@@ -51,9 +51,9 @@ def test_dualmat_sub() -> None:
 
 
 def test_dualmat_mul() -> None:
-    a = DualMat2D(-3, 1)
-    b = DualMat2D(-5, 2)
-    c_ = DualMat2D(15, -11)
+    a = DualMat2D.from_vals(-3, 1)
+    b = DualMat2D.from_vals(-5, 2)
+    c_ = DualMat2D.from_vals(15, -11)
     # pylint: disable=C0326
     refmat = np.array([[15, -11],
                        [ 0,  15]], dtype=int)
@@ -65,9 +65,9 @@ def test_dualmat_mul() -> None:
 
 
 def test_dualmat_div() -> None:
-    a = DualMat2D(-3, 1)
-    b = DualMat2D(-5, 2)
-    c_ = DualMat2D(0.6, 0.04)
+    a = DualMat2D.from_vals(-3, 1)
+    b = DualMat2D.from_vals(-5, 2)
+    c_ = DualMat2D.from_vals(0.6, 0.04)
     # pylint: disable=C0326
     refmat = np.array([[0.60, 0.04],
                        [0.00, 0.60]])
