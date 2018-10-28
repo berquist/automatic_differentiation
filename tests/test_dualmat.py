@@ -1,6 +1,6 @@
 import numpy as np
 
-from dualmat import DualMat2D
+from autodiff.dualmat import DualMat2D
 
 
 def test_dualmat_lift():

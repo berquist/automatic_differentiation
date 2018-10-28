@@ -3,7 +3,7 @@ from functools import partial
 import numpy as np
 import sympy as sy
 
-from dual import Dual
+from autodiff.dual import Dual
 
 from common import f_1d, f_2d, f_2d_sympy
 

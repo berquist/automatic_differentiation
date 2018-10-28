@@ -1,4 +1,4 @@
-from dual import Dual
+from autodiff.dual import Dual
 
 
 def test_dual_lift() -> None:
