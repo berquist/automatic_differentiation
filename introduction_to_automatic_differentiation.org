@@ -1,0 +1,23 @@
+#+title: Introduction to Automatic Differentiation
+#+author: Eric Berquist
+#+date: October 21st, 2018
+
+The confusing thing is that when we talk about infinitesimals, we often do represent them as very small numbers when performing a computation. However, here we are using infinitesimal purely in the abstract concept sense: it is identical the symbolic notion of an infinitesimal as something that "exists" and is nothing more than a tool, it isn't something that you calculate.
+
+Well, if it isn't a tiny finite number, and it isn't symbolic differentiation, then what is it? They key is to use [[https://en.m.wikipedia.org/wiki/Dual_number][dual numbers]]. A dual number looks like a complex number, being represented as \(a + b\epsilon\) rather than \(a + bi\), and having the property \(\epsilon^{2} = 0\) rather than \(i^{2} = -1\)
+
+* Resources:
+
+** Blogs
+
+- https://alexey.radul.name/ideas/2013/introduction-to-automatic-differentiation/
+- http://jliszka.github.io/2013/10/24/exact-numeric-nth-derivatives.html
+
+** Videos
+
+- [[https://www.youtube.com/watch?v=mYOkLkS5yqc][High-level view of AD (algorithmic differentiation) {YouTube}]]
+
+** Wikipedia
+
+- https://en.wikipedia.org/wiki/Automatic_differentiation
+- https://en.wikipedia.org/wiki/Dual_number

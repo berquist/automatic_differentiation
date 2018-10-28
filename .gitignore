@@ -1,6 +1,8 @@
 *.html
 *.pdf
 
+introduction_to_automatic_differentiation.tex
+
 #### Python
 
 # Byte-compiled / optimized / DLL files
