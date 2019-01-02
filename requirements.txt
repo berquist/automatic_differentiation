@@ -1,0 +1,10 @@
+# core
+sympy
+
+# testing
+pytest-cov
+
+# exteral AD packages
+autograd
+jax
+jaxlib
