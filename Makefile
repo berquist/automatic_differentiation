@@ -1,7 +1,12 @@
-.PHONY: lint
-lint:
+.PHONY: cleanup
+cleanup:
 	isort -rc .
 	black --target-version=py38 .
+
+.PHONY: lint
+lint:
+	black --check .
+	flake8 .
 	pylint autodiff
 
 .PHONY: mypy

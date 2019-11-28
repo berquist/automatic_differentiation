@@ -9,6 +9,7 @@ jaxlib
 
 # testing and development
 black
+flake8
 mypy
 pylint
 pytest-cov
