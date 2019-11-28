@@ -1,23 +1,33 @@
+"""An implementation of single-variable forward-mode automatic
+differentiation based on dual numbers represented as two components."""
+
 import numpy as np
 from attr import attrib, attrs
 
-from autodiff.autodiff_types import DNumber, Number
+from autodiff.autodiff_types import DNumber, Number, Scalar
 
 
 @attrs(frozen=True, slots=True)
 class Dual:
+    """An implementation of dual numbers (https://en.wikipedia.org/wiki/Dual_number).
+
+    `first` contains the usual number, and `second` contains the coefficient
+    of the nilpotent epsilon term, which is the first derivative of `first`
+    automatically calculated. This scheme gives forward-mode automatic
+    differentiation.
+    """
+
     first: Number = attrib()
     second: Number = attrib()
 
     @staticmethod
-    def _lift(primitive: Number) -> "Dual":
+    def lift(primitive: Number) -> "Dual":
         return Dual(primitive, 0)
 
     def __add__(self, other: DNumber) -> "Dual":
         if isinstance(other, Dual):
             return Dual(self.first + other.first, self.second + other.second)
-        else:
-            return self + Dual._lift(other)
+        return self + Dual.lift(other)
 
     def __radd__(self, other: DNumber) -> "Dual":
         return self + other
@@ -25,8 +35,7 @@ class Dual:
     def __sub__(self, other: DNumber) -> "Dual":
         if isinstance(other, Dual):
             return Dual(self.first - other.first, self.second - other.second)
-        else:
-            return self - Dual._lift(other)
+        return self - Dual.lift(other)
 
     def __rsub__(self, other: DNumber) -> "Dual":
         return self - other
@@ -36,8 +45,7 @@ class Dual:
             first = self.first * other.first
             second = self.second * other.first + self.first * other.second
             return Dual(first, second)
-        else:
-            return self * Dual._lift(other)
+        return self * Dual.lift(other)
 
     def __rmul__(self, other: DNumber) -> "Dual":
         return self * other
@@ -51,8 +59,7 @@ class Dual:
                 other.first ** 2
             )
             return Dual(first, second)
-        else:
-            return self / Dual._lift(other)
+        return self / Dual.lift(other)
 
     def sin(self) -> "Dual":
         return Dual(np.sin(self.first), self.second * np.cos(self.first))
@@ -65,7 +72,9 @@ class Dual:
 
     def log(self) -> "Dual":
         if self.first <= 0:
-            raise Exception
+            raise Exception(
+                f"The logarithm of a negative number is undefined: {self.first}"
+            )
         return Dual(np.log(self.first), self.second / self.first)
 
     def __pow__(self, k: Number) -> "Dual":
@@ -84,26 +93,22 @@ class Dual:
 def sin(n: DNumber) -> DNumber:
     if isinstance(n, Dual):
         return n.sin()
-    else:
-        return np.sin(n)
+    return np.sin(n)
 
 
 def cos(n: DNumber) -> DNumber:
     if isinstance(n, Dual):
         return n.cos()
-    else:
-        return np.cos(n)
+    return np.cos(n)
 
 
 def exp(n: DNumber) -> DNumber:
     if isinstance(n, Dual):
         return n.exp()
-    else:
-        return np.exp(n)
+    return np.exp(n)
 
 
 def log(n: DNumber) -> DNumber:
     if isinstance(n, Dual):
         return n.log()
-    else:
-        return np.log(n)
+    return np.log(n)

@@ -4,7 +4,7 @@ from autodiff.dual import Dual
 def test_dual_lift() -> None:
     a = -3
     b = Dual(-3, 0)
-    assert Dual._lift(a) == b
+    assert Dual.lift(a) == b
 
 
 def test_dual_const_add() -> None:

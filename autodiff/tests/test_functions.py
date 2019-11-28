@@ -128,7 +128,7 @@ def test_f_2d() -> None:
     print(d2f_dy_dy_sympy)
 
     f0 = f_2d(x, y)
-    fd0: Dual = f_2d(Dual._lift(x), Dual._lift(y))
+    fd0: Dual = f_2d(Dual.lift(x), Dual.lift(y))
     fd1: Dual = f_2d(Dual(x, 1), Dual(y, 0))
     fd2: Dual = f_2d(Dual(x, 0), Dual(y, 1))
     print(f0)

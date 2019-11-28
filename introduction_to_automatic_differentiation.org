@@ -12,6 +12,7 @@ Well, if it isn't a tiny finite number, and it isn't symbolic differentiation, t
 
 - https://alexey.radul.name/ideas/2013/introduction-to-automatic-differentiation/
 - http://jliszka.github.io/2013/10/24/exact-numeric-nth-derivatives.html
+- https://rufflewind.com/2016-12-30/reverse-mode-automatic-differentiation
 
 ** Videos
 
