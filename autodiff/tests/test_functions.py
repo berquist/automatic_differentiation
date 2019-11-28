@@ -4,13 +4,12 @@ import numpy as np
 import sympy as sy
 
 from autodiff.dual import Dual
-
 from autodiff.tests.common import f_1d, f_2d, f_2d_sympy
 
 
 def test_f_mul() -> None:
     x = 0.9
-    xs = sy.Symbol('x')
+    xs = sy.Symbol("x")
     values = {xs: x}
 
     def f(x):
@@ -42,7 +41,7 @@ def test_f_mul() -> None:
 
 def test_f_1d() -> None:
     x = 0.9
-    xs = sy.Symbol('x')
+    xs = sy.Symbol("x")
     values = {xs: x}
 
     fs = f_1d(xs)
@@ -52,13 +51,13 @@ def test_f_1d() -> None:
     df_dx_sympy = df_dx_sympy_symbolic.evalf(subs=values)
     d2f_dx_dx_sympy = d2f_dx_dx_sympy_symbolic.evalf(subs=values)
 
-    print('-' * 70)
+    print("-" * 70)
     print(fs)
     print(f_sympy)
-    print('-' * 70)
+    print("-" * 70)
     print(df_dx_sympy_symbolic)
     print(df_dx_sympy)
-    print('-' * 70)
+    print("-" * 70)
     print(d2f_dx_dx_sympy_symbolic)
     print(d2f_dx_dx_sympy)
 
@@ -71,30 +70,25 @@ def test_f_1d() -> None:
     assert isinstance(result_1d_d0, Dual)
     assert isinstance(result_1d_d1, Dual)
 
-    print('-' * 70)
+    print("-" * 70)
     print(result_1d_x)
     print(result_1d_d0)
     print(result_1d_d1)
 
     decimal = 14
 
-    np.testing.assert_almost_equal(result_1d_x, f_sympy,
-                                   decimal=decimal)
-    np.testing.assert_almost_equal(result_1d_d0.first, f_sympy,
-                                   decimal=decimal)
-    np.testing.assert_almost_equal(result_1d_d0.second, 0.0,
-                                   decimal=decimal)
-    np.testing.assert_almost_equal(result_1d_d1.first, f_sympy,
-                                   decimal=decimal)
-    np.testing.assert_almost_equal(result_1d_d1.second, df_dx_sympy,
-                                   decimal=decimal)
+    np.testing.assert_almost_equal(result_1d_x, f_sympy, decimal=decimal)
+    np.testing.assert_almost_equal(result_1d_d0.first, f_sympy, decimal=decimal)
+    np.testing.assert_almost_equal(result_1d_d0.second, 0.0, decimal=decimal)
+    np.testing.assert_almost_equal(result_1d_d1.first, f_sympy, decimal=decimal)
+    np.testing.assert_almost_equal(result_1d_d1.second, df_dx_sympy, decimal=decimal)
 
 
 def test_f_2d() -> None:
     x = np.e
     y = np.pi
 
-    xs, ys = sy.symbols('x y')
+    xs, ys = sy.symbols("x y")
     f_sympy_symbolic = f_2d_sympy(xs, ys)
     df_dx_sympy_symbolic = f_sympy_symbolic.diff(xs)
     df_dy_sympy_symbolic = f_sympy_symbolic.diff(ys)
@@ -111,27 +105,27 @@ def test_f_2d() -> None:
     d2f_dx_dy_sympy = d2f_dx_dy_sympy_symbolic.evalf(subs=values)
     d2f_dy_dy_sympy = d2f_dy_dy_sympy_symbolic.evalf(subs=values)
 
-    print('f_sympy_symbolic')
+    print("f_sympy_symbolic")
     print(f_sympy_symbolic)
     print(f_sympy)
 
-    print('df_dx_sympy_symbolic')
+    print("df_dx_sympy_symbolic")
     print(df_dx_sympy_symbolic)
     print(df_dx_sympy)
 
-    print('df_dy_sympy_symbolic')
+    print("df_dy_sympy_symbolic")
     print(df_dy_sympy_symbolic)
     print(df_dy_sympy)
 
-    print('d2f_dx_dx_sympy_symbolic')
+    print("d2f_dx_dx_sympy_symbolic")
     print(d2f_dx_dx_sympy_symbolic)
     print(d2f_dx_dx_sympy)
 
-    print('d2f_dx_dy_sympy_symbolic')
+    print("d2f_dx_dy_sympy_symbolic")
     print(d2f_dx_dy_sympy_symbolic)
     print(d2f_dx_dy_sympy)
 
-    print('d2f_dy_dy_sympy_symbolic')
+    print("d2f_dy_dy_sympy_symbolic")
     print(d2f_dy_dy_sympy_symbolic)
     print(d2f_dy_dy_sympy)
 

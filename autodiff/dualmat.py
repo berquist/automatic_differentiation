@@ -1,7 +1,7 @@
-import attr
 from abc import ABC
 from typing import Optional, Union
 
+import attr
 import numpy as np
 
 from autodiff.autodiff_types import Scalar
@@ -12,7 +12,7 @@ class DualMatND(ABC):
     mat: np.ndarray = attr.ib()
 
     @staticmethod
-    def from_vals(vals) -> 'DualMatND':
+    def from_vals(vals) -> "DualMatND":
         dim = len(vals)
         assert dim >= 2
         _type = type(vals[0])
@@ -23,7 +23,7 @@ class DualMatND(ABC):
         return DualMatND(mat)
 
     @staticmethod
-    def lift(primitive: Scalar, order: Optional[int]) -> 'DualMatND':
+    def lift(primitive: Scalar, order: Optional[int]) -> "DualMatND":
         if order:
             assert order >= 1
         else:
@@ -40,34 +40,34 @@ class DualMatND(ABC):
     def second(self) -> Scalar:
         return self.mat[0, 1]
 
-    def __add__(self, other: Union['DualMatND', Scalar]) -> 'DualMatND':
+    def __add__(self, other: Union["DualMatND", Scalar]) -> "DualMatND":
         if isinstance(other, DualMatND):
             return DualMatND(self.mat + other.mat)
         else:
             return self + DualMatND.lift(other)
 
-    def __radd__(self, other: Union['DualMatND', Scalar]) -> 'DualMatND':
+    def __radd__(self, other: Union["DualMatND", Scalar]) -> "DualMatND":
         return self + other
 
-    def __sub__(self, other: Union['DualMatND', Scalar]) -> 'DualMatND':
+    def __sub__(self, other: Union["DualMatND", Scalar]) -> "DualMatND":
         if isinstance(other, DualMatND):
             return DualMatND(self.mat - other.mat)
         else:
             return self - DualMatND.lift(other)
 
-    def __rsub__(self, other: Union['DualMatND', Scalar]) -> 'DualMatND':
+    def __rsub__(self, other: Union["DualMatND", Scalar]) -> "DualMatND":
         return self - other
 
-    def __mul__(self, other: Union['DualMatND', Scalar]) -> 'DualMatND':
+    def __mul__(self, other: Union["DualMatND", Scalar]) -> "DualMatND":
         if isinstance(other, DualMatND):
             return DualMatND(self.mat @ other.mat)
         else:
             return self * DualMatND.lift(other)
 
-    def __rmul__(self, other: Union['DualMatND', Scalar]) -> 'DualMatND':
+    def __rmul__(self, other: Union["DualMatND", Scalar]) -> "DualMatND":
         return self * other
 
-    def __truediv__(self, other: Union['DualMatND', Scalar]) -> 'DualMatND':
+    def __truediv__(self, other: Union["DualMatND", Scalar]) -> "DualMatND":
         if isinstance(other, DualMatND):
             return DualMatND(self.mat @ np.linalg.inv(other.mat))
         else:
@@ -76,9 +76,8 @@ class DualMatND(ABC):
 
 @attr.s
 class DualMat2D(DualMatND):
-
     @staticmethod
-    def from_vals(first: Scalar, second: Scalar) -> 'DualMat2D':
+    def from_vals(first: Scalar, second: Scalar) -> "DualMat2D":
         _type = type(first)
         dim = 2
         mat = np.zeros((dim, dim), dtype=_type)
@@ -88,5 +87,5 @@ class DualMat2D(DualMatND):
         return DualMat2D(mat)
 
     @staticmethod
-    def lift(primitive: Scalar) -> 'DualMat2D':
+    def lift(primitive: Scalar) -> "DualMat2D":
         return DualMat2D.from_vals(primitive, 0)

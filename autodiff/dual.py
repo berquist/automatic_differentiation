@@ -1,8 +1,7 @@
 import attr
-
 import numpy as np
 
-from autodiff.autodiff_types import Number, DNumber
+from autodiff.autodiff_types import DNumber, Number
 
 
 @attr.s
@@ -11,28 +10,28 @@ class Dual:
     second: Number = attr.ib()
 
     @staticmethod
-    def _lift(primitive: Number) -> 'Dual':
+    def _lift(primitive: Number) -> "Dual":
         return Dual(primitive, 0)
 
-    def __add__(self, other: DNumber) -> 'Dual':
+    def __add__(self, other: DNumber) -> "Dual":
         if isinstance(other, Dual):
             return Dual(self.first + other.first, self.second + other.second)
         else:
             return self + Dual._lift(other)
 
-    def __radd__(self, other: DNumber) -> 'Dual':
+    def __radd__(self, other: DNumber) -> "Dual":
         return self + other
 
-    def __sub__(self, other: DNumber) -> 'Dual':
+    def __sub__(self, other: DNumber) -> "Dual":
         if isinstance(other, Dual):
             return Dual(self.first - other.first, self.second - other.second)
         else:
             return self - Dual._lift(other)
 
-    def __rsub__(self, other: DNumber) -> 'Dual':
+    def __rsub__(self, other: DNumber) -> "Dual":
         return self - other
 
-    def __mul__(self, other: DNumber) -> 'Dual':
+    def __mul__(self, other: DNumber) -> "Dual":
         if isinstance(other, Dual):
             first = self.first * other.first
             second = self.second * other.first + self.first * other.second
@@ -40,41 +39,43 @@ class Dual:
         else:
             return self * Dual._lift(other)
 
-    def __rmul__(self, other: DNumber) -> 'Dual':
+    def __rmul__(self, other: DNumber) -> "Dual":
         return self * other
 
-    def __truediv__(self, other: DNumber) -> 'Dual':
+    def __truediv__(self, other: DNumber) -> "Dual":
         if isinstance(other, Dual):
             if other.first == 0:
                 raise Exception
             first = self.first / other.first
-            second = ((self.second * other.first) - (self.first * other.second)) / (other.first ** 2)
+            second = ((self.second * other.first) - (self.first * other.second)) / (
+                other.first ** 2
+            )
             return Dual(first, second)
         else:
             return self / Dual._lift(other)
 
-    def sin(self) -> 'Dual':
+    def sin(self) -> "Dual":
         return Dual(np.sin(self.first), self.second * np.cos(self.first))
 
-    def cos(self) -> 'Dual':
+    def cos(self) -> "Dual":
         return Dual(np.cos(self.first), -self.second * np.sin(self.first))
 
-    def exp(self) -> 'Dual':
+    def exp(self) -> "Dual":
         return Dual(np.exp(self.first), self.second * np.exp(self.first))
 
-    def log(self) -> 'Dual':
+    def log(self) -> "Dual":
         if self.first <= 0:
             raise Exception
         return Dual(np.log(self.first), self.second / self.first)
 
-    def __pow__(self, k: Number) -> 'Dual':
+    def __pow__(self, k: Number) -> "Dual":
         if self.first == 0:
             raise Exception
         first = self.first ** k
         second = k * (self.first ** (k - 1)) * self.second
         return Dual(first, second)
 
-    def __abs__(self) -> 'Dual':
+    def __abs__(self) -> "Dual":
         if self.first == 0:
             raise Exception
         return Dual(abs(self.first), self.second * np.sign(self.first))
