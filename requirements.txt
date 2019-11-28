@@ -1,10 +1,14 @@
 # core
+attrs
 sympy
-
-# testing
-pytest-cov
 
 # exteral AD packages
 autograd
 jax
 jaxlib
+
+# testing and development
+black
+mypy
+pylint
+pytest-cov

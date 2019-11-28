@@ -1,12 +1,14 @@
-.PHONY: pylint
-pylint:
-	pylint *.py tests/*.py
+.PHONY: lint
+lint:
+	isort -rc .
+	black --target-version=py38 .
+	pylint autodiff tests
 
 .PHONY: mypy
 mypy:
 	# MYPYPATH=$(HOME)/repositories/mypy-data/numpy-mypy mypy --strict dual.py
-	mypy --strict --ignore-missing-imports --python-version	3.7 *.py tests/*.py
+	mypy --strict --ignore-missing-imports --python-version	3.8 .
 
 .PHONY: test
 test:
-	pytest -v -s --cov=autodiff tests
+	python -m pytest -v -s --cov=autodiff tests
