@@ -1,17 +1,19 @@
 ---
-language: python
-python:
-  - 3.8
-  - 3.7
+sudo: false
 
-cache:
-  pip: true
+matrix:
+  include:
 
-before_install:
-  - pip install -r requirements.txt
-
-# Not an installable package right now, so don't do anything.
-install:
-
-script:
-  - make test
+    - language: python
+      python:
+        - 3.8
+        - 3.7
+      cache:
+        pip: true
+      before_install:
+        - cd python
+        - pip install -r requirements.txt
+      # Not an installable package right now, so don't do anything.
+      install:
+      script:
+        - make test
