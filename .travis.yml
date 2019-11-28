@@ -12,3 +12,6 @@ before_install:
 
 # Not an installable package right now, so don't do anything.
 install:
+
+script:
+  - make test
