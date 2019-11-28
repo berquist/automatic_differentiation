@@ -1,13 +1,13 @@
-import attr
 import numpy as np
+from attr import attrib, attrs
 
 from autodiff.autodiff_types import DNumber, Number
 
 
-@attr.s
+@attrs(frozen=True, slots=True)
 class Dual:
-    first: Number = attr.ib()
-    second: Number = attr.ib()
+    first: Number = attrib()
+    second: Number = attrib()
 
     @staticmethod
     def _lift(primitive: Number) -> "Dual":

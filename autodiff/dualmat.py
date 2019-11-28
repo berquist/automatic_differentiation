@@ -1,15 +1,16 @@
 from abc import ABC
 from typing import Optional, Union
 
-import attr
 import numpy as np
+from attr import attrib, attrs
+from attr.validators import instance_of
 
 from autodiff.autodiff_types import Scalar
 
 
-@attr.s
+@attrs(frozen=True, slots=True)
 class DualMatND(ABC):
-    mat: np.ndarray = attr.ib()
+    mat: np.ndarray = attrib(validator=instance_of(np.ndarray))
 
     @staticmethod
     def from_vals(vals) -> "DualMatND":
@@ -74,7 +75,7 @@ class DualMatND(ABC):
             return self / DualMatND.lift(other)
 
 
-@attr.s
+@attrs(frozen=True, slots=True)
 class DualMat2D(DualMatND):
     @staticmethod
     def from_vals(first: Scalar, second: Scalar) -> "DualMat2D":
