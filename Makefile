@@ -2,7 +2,7 @@
 lint:
 	isort -rc .
 	black --target-version=py38 .
-	pylint autodiff tests
+	pylint autodiff
 
 .PHONY: mypy
 mypy:
@@ -11,4 +11,4 @@ mypy:
 
 .PHONY: test
 test:
-	python -m pytest -v -s --cov=autodiff tests
+	python -m pytest -v -s --cov=autodiff

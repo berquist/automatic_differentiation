@@ -5,7 +5,7 @@ import sympy as sy
 
 from autodiff.dual import Dual
 
-from common import f_1d, f_2d, f_2d_sympy
+from autodiff.tests.common import f_1d, f_2d, f_2d_sympy
 
 
 def test_f_mul() -> None:
