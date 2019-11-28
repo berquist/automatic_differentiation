@@ -1,5 +1,6 @@
-"""An implementation of single-variable forward-mode automatic
-differentiation based on dual numbers represented as two components."""
+"""An implementation of single-variable forward-mode automatic differentiation
+based on dual numbers represented as two components.
+"""
 
 import numpy as np
 from attr import attrib, attrs

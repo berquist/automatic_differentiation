@@ -16,6 +16,3 @@ def test_reverse_example() -> None:
     assert abs(z.value - 2.579425538604203) <= thresh
     assert (x.grad() - (y.value + np.cos(x.value))) <= thresh
     assert (y.grad() - x.value) <= thresh
-
-# def test_reverse_add() -> None:
-#     pass

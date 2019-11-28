@@ -1,5 +1,6 @@
 """An implementation of forward-mode automatic differentiation based on dual
-numbers represented as matrices."""
+numbers represented as matrices.
+"""
 
 from abc import ABC
 from typing import Optional, Union
@@ -27,7 +28,7 @@ class DualMatND(ABC):
         return DualMatND(mat)
 
     @staticmethod
-    def lift(primitive: Scalar, order: Optional[int]) -> "DualMatND":
+    def lift(primitive: Scalar, order: Optional[int] = None) -> "DualMatND":
         if order:
             assert order >= 1
         else:

@@ -1,17 +1,20 @@
-from typing import List
+"""An implementation of single-variable reverse-mode automatic differentiation
+based on a mutable graph.
+"""
 
+from typing import List, Optional, Tuple
+
+import numpy as np
 from attr import attrib, attrs
 
 from autodiff.autodiff_types import Scalar
-
-import numpy as np
 
 
 @attrs(frozen=False, slots=True)
 class Var:
     value: Scalar = attrib()
-    children: List["Var"] = attrib(factory=list)
-    grad_value = attrib(default=None)
+    children: List[Tuple[Scalar, "Var"]] = attrib(factory=list)
+    grad_value: Optional[Scalar] = attrib(default=None)
 
     def grad(self) -> "Var":
         if self.grad_value is None:
