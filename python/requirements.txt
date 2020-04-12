@@ -6,10 +6,12 @@ sympy
 autograd
 jax
 jaxlib
+torch
 
 # testing and development
 black
 flake8
+isort
 mypy
 pylint
 pytest-cov
