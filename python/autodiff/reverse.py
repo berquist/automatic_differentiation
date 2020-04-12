@@ -37,7 +37,7 @@ class Var:
         return z
 
     def __truediv__(self, other: "Var") -> "Var":
-        z = Var(self.value - other.value)
+        z = Var(self.value / other.value)
         _add_to_children(z, self, other)
         return z
 
