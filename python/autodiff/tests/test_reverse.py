@@ -1,7 +1,9 @@
 import math
 
 import autograd
-import autograd.numpy as np
+import autograd.numpy as anp
+import jax
+import jax.numpy as jnp
 import torch
 from pytest import approx
 
@@ -19,7 +21,7 @@ def test_reverse_example() -> None:
     thresh = 1e-15
 
     assert abs(z.value - 2.579425538604203) <= thresh
-    assert (x.grad() - (y.value + np.cos(x.value))) <= thresh
+    assert (x.grad() - (y.value + anp.cos(x.value))) <= thresh
     assert (y.grad() - x.value) <= thresh
 
 
@@ -42,9 +44,14 @@ def test_sin() -> None:
     z_t.backward()
 
     # autograd
-    def f(a):
-        return np.sin(a)
+    def fa(a):
+        return anp.sin(a)
+
+    # jax
+    def fj(a):
+        return jnp.sin(a)
 
     assert y_r.grad() == approx(ref)
     assert y_t.grad.item() == approx(ref)
-    assert autograd.grad(f)(y) == approx(ref)
+    assert autograd.grad(fa)(y) == approx(ref)
+    assert jax.grad(fj)(y) == approx(ref)
